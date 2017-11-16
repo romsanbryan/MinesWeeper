@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     static String dificultad = null;
     TextView cuentaAtras;
     int opcion = 0;
+
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {

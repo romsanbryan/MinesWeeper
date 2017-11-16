@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MinesWeeper</string>
+    <string name="principiante">Principiante</string>
+    <string name="avanzado">Avanzado</string>
+    <string name="amateurs">Amateurs</string>
+    <string name="instrucciones">Instrucciones</string>
+    <string name="configuracion">Configuración del juego</string>
+    <string name="nj">Nuevo Juego</string>
+    <string name="personaje">Seleccionar personaje</string>
+
+</resources>

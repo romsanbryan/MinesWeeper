@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.asus.minesweeper.MainActivity">
+
+    <item
+        android:id="@+id/instrucciones"
+        android:orderInCategory="100"
+        android:title="@string/instrucciones"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/nj"
+        android:orderInCategory="100"
+        android:title="@string/nj"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/configuracion"
+        android:orderInCategory="100"
+        android:title="@string/configuracion"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/personaje"
+        android:orderInCategory="100"
+        android:title="@string/personaje"
+        app:showAsAction="never"
+        />
+</menu>

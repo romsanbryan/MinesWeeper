@@ -8,4 +8,18 @@
     <string name="nj">Nuevo Juego</string>
     <string name="personaje">Seleccionar personaje</string>
     <string name="instruccionesExplicadas">El juego es tipo buscaminas: cuando pulsas en una casilla, sale un numero que identifica cuántas hipotenochas hay alrededor: Ten cuidado porque si pulsas en una casilla que tenga una hipotenocha  escondida, perderás. Si crees o tienes la certeza de que hay una hipotenocha, haz un click largo   sobre la casilla para señalarla. No hagas un click largo en una casilla donde no hay una hipotecnocha porque perderás. Ganas una  vez hayas  encontrado todas las  hipotenochas</string>
+
+
+
+    <string-array name="nombresPersonajes">
+        <item>Goku</item>
+        <item>Vegeta</item>
+        <item>Gohan</item>
+    </string-array>
+
+    <integer-array name="images_personajes">
+        <item>@drawable/mario</item>
+        <item>@drawable/luigi</item>
+        <item>@drawable/peach</item>
+    </integer-array>
 </resources>

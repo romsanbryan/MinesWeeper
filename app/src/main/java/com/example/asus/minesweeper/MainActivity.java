@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private int TIEMPO_AVANZADO = 600000; // 10 minutos
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
                 alert.show();
                 break;
             case R.id.personaje:
-                toast1 = Toast.makeText(getApplicationContext(), "Selecciona personaje", Toast.LENGTH_SHORT);
-                toast1.show();
+                final Intent intent = new Intent(this, Personajes.class);
+                startActivityForResult(intent, 1);
                 break;
 
             case R.id.instrucciones:
@@ -130,5 +128,4 @@ public class MainActivity extends AppCompatActivity {
         };
         cT.start();
     }
-
 }

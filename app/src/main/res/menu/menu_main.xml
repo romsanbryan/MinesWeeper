@@ -23,8 +23,9 @@
         />
     <item
         android:id="@+id/personaje"
+        android:icon="@drawable/mario"
         android:orderInCategory="100"
-        android:title="@string/personaje"
-        app:showAsAction="never|always"
+        android:title="Ajustes"
+        app:showAsAction="ifRoom"
         />
 </menu>

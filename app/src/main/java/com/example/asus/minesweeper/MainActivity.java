@@ -1,6 +1,7 @@
 package com.example.asus.minesweeper;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -10,6 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.DialogInterface;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.Toast;
 import android.widget.TextView;
 
@@ -20,15 +26,14 @@ import android.widget.TextView;
  */
 
 public class MainActivity extends AppCompatActivity {
-    private Toast toast1;
     private AlertDialog.Builder builder;
     private AlertDialog alert;
-    private static String dificultad = null;
+    private static String dificultad;
     private TextView cuentaAtras;
     private int opcion = 0;
-    private int PRINCIPIANTE = 8;
-    private int AMATEUR = 12;
-    private int AVANZADO = 16;
+    public static final int PRINCIPIANTE = 8;
+    public static final int AMATEUR = 12;
+    public static final int AVANZADO = 16;
     private int TIEMPO_PRINCIPIANTE = 300000; // 5 minutos
     private int TIEMPO_AMATEUR= 450000; // 7.5 minutos
     private int TIEMPO_AVANZADO = 600000; // 10 minutos
@@ -62,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if(opcion == AVANZADO) {
                     tiempoRestante(TIEMPO_AVANZADO);
                 } else {
-                    toast1 = Toast.makeText(getApplicationContext(), "No has seleccinado dificultad", Toast.LENGTH_SHORT);
-                    toast1.show();
+                    Toast.makeText(getApplicationContext(), "No has seleccinado dificultad", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.configuracion:
@@ -94,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.personaje:
                 final Intent intent = new Intent(this, Personajes.class);
                 startActivityForResult(intent, 1);
+
                 break;
 
             case R.id.instrucciones:
@@ -128,4 +133,8 @@ public class MainActivity extends AppCompatActivity {
         };
         cT.start();
     }
+    /*
+    *
+     */
+
 }

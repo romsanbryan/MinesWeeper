@@ -1,19 +1,14 @@
 package com.example.asus.minesweeper;
 
 import android.app.ListActivity;
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -31,8 +26,6 @@ public class Personajes extends ListActivity {
     private TypedArray images;
     private List<Informacion> informacionList;
     private Menu menu;
-
-
 
 
     @Override

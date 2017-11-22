@@ -23,7 +23,7 @@
         />
     <item
         android:id="@+id/personaje"
-        android:icon="@drawable/goku"
+        android:icon="@drawable/icon"
         android:orderInCategory="100"
         android:title="Ajustes"
         app:showAsAction="ifRoom"

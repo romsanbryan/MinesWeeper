@@ -1,7 +1,6 @@
 package com.example.asus.minesweeper;
 
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -11,17 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.DialogInterface;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.Toast;
 import android.widget.TextView;
 
 /**
  * @author Bryan Jesús Romero Santos
- * @version 1.2
+ * @version 1.3
  * @since API 22
  */
 
@@ -29,14 +23,14 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog.Builder builder;
     private AlertDialog alert;
     private static String dificultad;
-    private TextView cuentaAtras;
     private int opcion = 0;
-    public static final int PRINCIPIANTE = 8;
-    public static final int AMATEUR = 12;
-    public static final int AVANZADO = 16;
+    public static final int PRINCIPIANTE = 8; // 8x8
+    public static final int AMATEUR = 12; // 12x12
+    public static final int AVANZADO = 16; // 16x16
     private int TIEMPO_PRINCIPIANTE = 300000; // 5 minutos
     private int TIEMPO_AMATEUR= 450000; // 7.5 minutos
     private int TIEMPO_AVANZADO = 600000; // 10 minutos
+    Game g = new Game();
 
 
     @Override
@@ -49,9 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        cuentaAtras = (TextView) findViewById(R.id.textView2);
+        g.tiempo = (TextView) findViewById(R.id.textView2);
         return true;
     }
 
@@ -61,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
         switch (id){
             case R.id.nj:
                 if(opcion == PRINCIPIANTE) {
-                    tiempoRestante(TIEMPO_PRINCIPIANTE);
+                    g.contador(TIEMPO_PRINCIPIANTE);
                 } else if(opcion == AMATEUR) {
-                    tiempoRestante(TIEMPO_AMATEUR);
+                    g.contador(TIEMPO_AMATEUR);
                 } else if(opcion == AVANZADO) {
-                    tiempoRestante(TIEMPO_AVANZADO);
+                    g.contador(TIEMPO_AVANZADO);
                 } else {
                     Toast.makeText(getApplicationContext(), "No has seleccinado dificultad", Toast.LENGTH_SHORT).show();
                 }
@@ -98,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.personaje:
                 final Intent intent = new Intent(this, Personajes.class);
                 startActivityForResult(intent, 1);
-
                 break;
 
             case R.id.instrucciones:
@@ -116,25 +108,4 @@ public class MainActivity extends AppCompatActivity {
             }
             return super.onOptionsItemSelected(item);
         }
-
-    private void tiempoRestante(int time){
-        CountDownTimer cT = new CountDownTimer(time, 1000) {
-            public void onTick(long millisUntilFinished) {
-                String v = String.format("%02d",millisUntilFinished/60000);
-                int va = (int)((millisUntilFinished%60000)/1000);
-                cuentaAtras.setText("Tiempo: " +v+":"+String.format("%02d",va));
-
-                if (va < 1) cuentaAtras.setTextColor(Color.rgb(255,0,0));
-
-            }
-            public void onFinish() {
-                cuentaAtras.setText("Se acabó el tiempo");
-            }
-        };
-        cT.start();
-    }
-    /*
-    *
-     */
-
 }

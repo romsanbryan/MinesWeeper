@@ -20,4 +20,11 @@
         <item>@drawable/vegeta</item>
         <item>@drawable/gohan</item>
     </integer-array>
+
+    <integer-array name="images_personajes_completos">
+        <item>@drawable/goku</item>
+        <item>@drawable/vegeta</item>
+        <item>@drawable/gohan</item>
+        <item>@drawable/broly</item>
+    </integer-array>
 </resources>

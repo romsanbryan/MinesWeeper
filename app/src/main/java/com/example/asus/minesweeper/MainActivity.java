@@ -23,16 +23,15 @@ import android.widget.TextView;
 
 /**
  * @author Bryan Jesús Romero Santos
- * @version 1.3
+ * @version 1.7
  * @since API 21
  */
 
 public class MainActivity extends AppCompatActivity
         implements
         SelecDificultadDialogFragment.RespuestaDificultad, View.OnClickListener, View.OnLongClickListener {
-// Declaración de variables
-    protected static int personaje = 0;
-    protected int dificultad = 0;
+    protected static int personaje = 0; // posicion del personaje en el array
+    protected int dificultad = 0;  // posicion de la dificultad
     private Button tiledBoton;
     public static TableLayout tableLayout;
     private LinearLayout main;
@@ -51,6 +50,8 @@ public class MainActivity extends AppCompatActivity
     private int TIEMPO_AMATEUR= 450000; // 7.5 minutos
     private int TIEMPO_AVANZADO = 600000; // 10 minutos
     private Game g = new Game();
+    static boolean relojActivado = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -267,7 +268,7 @@ public class MainActivity extends AppCompatActivity
                 TableLayout tl = (TableLayout) view.getParent().getParent();
                 jugando = false;
                 encontradas = 0;
-                mostrarAlerta("Has ganado");
+                mostrarAlerta(R.string.ganador);
                 deshabilitaTablero(tl);
             }
         } else { // No hay hipotenocha
@@ -280,7 +281,7 @@ public class MainActivity extends AppCompatActivity
             TableLayout tl = (TableLayout) view.getParent().getParent();
             jugando = false;
             encontradas = 0;
-            mostrarAlerta("Has perdido");
+            mostrarAlerta(R.string.perdedor);
             deshabilitaTablero(tl);
             g.cT.cancel();
         }
@@ -293,19 +294,17 @@ public class MainActivity extends AppCompatActivity
      *
      * @param texto Entero indicado el id del recurso de texto asociado.
      */
-    private void mostrarAlerta(String texto) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
+    public void mostrarAlerta(int texto) {
+        builder = new AlertDialog.Builder(this);
         builder.setMessage(texto)
-                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // El usuario pulsa OK.
+                .setNeutralButton(R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
                     }
                 });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        alert = builder.create();
+        alert.show();
     }
 
     @Override
@@ -327,7 +326,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.instrucciones:
                 builder = new AlertDialog.Builder(this);
                 builder.setMessage(R.string.instruccionesExplicadas)
-                        .setTitle(R.string.instrucciones).setNeutralButton("Ok",
+                        .setTitle(R.string.instrucciones).setNeutralButton(R.string.ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
@@ -344,14 +343,25 @@ public class MainActivity extends AppCompatActivity
      * Inicia el juego desde el menú correspondiente.
      *
      */
-    public void empezarJuego() {
+    private void empezarJuego() {
         jugando = true;
         onRespuestaDificultad(dificultad);
         motorJuego = new MotorJuego(dificultad);
 
-                g.contador(TIEMPO_PRINCIPIANTE);
+        if(relojActivado == true) {
+            g.cT.cancel();
+            relojActivado = false;
+        }
 
-
+        if(dificultad == 0) {
+            g.contador(TIEMPO_PRINCIPIANTE);
+        }
+        if (dificultad==1) {
+            g.contador(TIEMPO_AMATEUR);
+        }
+        if (dificultad==2){
+            g.contador(TIEMPO_AVANZADO);
+        }
 
         motorJuego.jugar();
     }

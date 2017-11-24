@@ -14,20 +14,20 @@ import android.os.Bundle;
 
 public class SelecDificultadDialogFragment extends DialogFragment {
     // Declaración de variables
-    String[] dificultad = {"Principiante", "Amateur", "Avanzado"};
+    String[] dificultad = {"Nivel Principiante", "Nivel Amateur", "Nivel Avanzado"};
     RespuestaDificultad respuestaDificultad;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Elige")
+        builder.setTitle(R.string.dificultad)
                 .setSingleChoiceItems(dificultad, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         respuestaDificultad.onRespuestaDificultad(i);
                     }
                 })
-                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // El usuario pulsa Aceptar.

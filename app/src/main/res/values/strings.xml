@@ -7,7 +7,18 @@
     <string name="configuracion">Configuración del juego</string>
     <string name="nj">Nuevo Juego</string>
     <string name="personaje">Seleccionar personaje</string>
-    <string name="instruccionesExplicadas">El juego es tipo buscaminas: cuando pulsas en una casilla, sale un numero que identifica cuántas hipotenochas hay alrededor: Ten cuidado porque si pulsas en una casilla que tenga una hipotenocha  escondida, perderás. Si crees o tienes la certeza de que hay una hipotenocha, haz un click largo   sobre la casilla para señalarla. No hagas un click largo en una casilla donde no hay una hipotecnocha porque perderás. Ganas una  vez hayas  encontrado todas las  hipotenochas</string>
+    <string name="instruccionesExplicadas">El juego es tipo buscaminas: cuando pulsas en una casilla, sale un numero que identifica cuántos enemigos
+        hay alrededor: Ten cuidado porque si pulsas en una casilla que tenga un enemigo  escondido, perderás. Si crees o tienes la certeza de que
+        hay un enemigo, haz un click largo sobre la casilla para descubrirlo. No hagas un click largo en una casilla donde no hay enemigo
+        porque perderás. Ganas una vez que hayas descubierto todas las casillas sin descubrir enemigos</string>
+
+    <string name="ok">Ok</string>
+    <string name="dificultad">Dificultad</string>
+    <string name="tiempoAcabado">Tiempo acabado</string>
+    <string name="ganador">Has ganado</string>
+    <string name="perdedor">Has perdido</string>
+
+
 
     <string-array name="nombresPersonajes">
         <item>Goku</item>

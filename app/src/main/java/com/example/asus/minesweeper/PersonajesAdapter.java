@@ -11,22 +11,21 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
+ * Adaptador de personaje
  * @author Bryan Jesús Romero Santos
- * @version 1.1
- * @since API 22
  */
 
-public class PersonajesListArrayAdapter extends ArrayAdapter<Personajes.Informacion> {
+public class PersonajesAdapter extends ArrayAdapter<Personajes.Informacion> {
 
-    protected final List<Personajes.Informacion> list;
-    protected final Activity context;
+    private final List<Personajes.Informacion> list;
+    private final Activity context;
 
-    static class ViewHolder {
+   private static class ViewHolder {
         public TextView name;
         public ImageView flag;
     }
 
-    public PersonajesListArrayAdapter(Activity context, List<Personajes.Informacion> list) {
+    public PersonajesAdapter(Activity context, List<Personajes.Informacion> list) {
         super(context, R.layout.activity_personajes_row, list);
         this.context = context;
         this.list = list;

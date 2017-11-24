@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Toast;
 import android.widget.TextView;
 
 /**
@@ -28,42 +26,47 @@ import android.widget.TextView;
  * @since API 21
  */
 
-public class MainActivity extends AppCompatActivity implements SelecDificultadDialogFragment.RespuestaDificultad, View.OnClickListener, View.OnLongClickListener {
-    protected static int personaje = 0; // posicion del personaje en el array
-    protected int dificultad = 0;  // posicion de la dificultad
+public class MainActivity extends AppCompatActivity implements DificultadFragment.RespuestaDificultad, View.OnClickListener, View.OnLongClickListener {
+   // Atributos privados
+    private int dificultad = 0;  // posicion de la dificultad
     private Button tiledBoton;
-    public static TableLayout tableLayout;
-    private LinearLayout main;
-    private MotorJuego motorJuego;
-    private boolean jugando = false;
+    private LinearLayout tablero; // tablero del juego (contect_main)
+    private Game game; // objeto de la clase game
+    private boolean jugando = false; // controla si hay un juego activo para activar/desactivar el tablero
     private TypedArray arrayImagenes, arrayImagenesCompleto;
-    private int encontradas = 0;
-    private AlertDialog.Builder builder;
-    private AlertDialog alert;
-    private static String nivel;
-    private int opcion = 0;
-    public static final int PRINCIPIANTE = 8; // 8x8
-    public static final int AMATEUR = 10; // 10x10
-    public static final int AVANZADO = 12; // 12x12
-    private int TIEMPO_PRINCIPIANTE = 300000; // 5 minutos
-    private int TIEMPO_AMATEUR= 450000; // 7.5 minutos
-    private int TIEMPO_AVANZADO = 600000; // 10 minutos
-    private Game g = new Game();
-    static boolean relojActivado = false;
-    public static int enemigo = 0;
+    private int encontradas = 0; // controla cuantos enemigos hemos descubierto
+    private AlertDialog.Builder builder;// necesario para hacer alertas con mensajes
+    private AlertDialog alert; // necesario para hacer alertas con mensajes
+
+    // Atributos Staticos
+    public static int personaje = 0; // posicion del personaje en el array
+    public static TableLayout tableLayout;
+    public static boolean relojActivado = false; // para controlar que el reloj se activa o desactiva
+    public static int enemigo = 0; // posicion del enemigo en el array
+
+    // Atributos finales
+    public static final int PRINCIPIANTE = 8; // tablero 8x8
+    public static final int AMATEUR = 10; // tablero 10x10
+    public static final int AVANZADO = 12; // tablero 12x12
+    public static final int ENEMIGOS_PRINCIPIANTES = 10; // enemigos para la clase principiante
+    public static final int ENEMIGOS_AMATEUR = 30; // enemigos para la clase amateurs
+    public static final int ENEMIGOS_AVANZADO = 60; // enemigos para la clase avanzado
+    public static final int TIEMPO_PRINCIPIANTE = 300000; // tiempo 5 minutos
+    public static final int TIEMPO_AMATEUR= 450000; // tiempo 7.5 minutos
+    public static final int TIEMPO_AVANZADO = 600000; // tiempo 10 minutos
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); // Permite añadir el toolbar
         setSupportActionBar(toolbar);
-        arrayImagenesCompleto = getResources().obtainTypedArray(R.array.images_personajes_completos);
-        arrayImagenes = getResources().obtainTypedArray(R.array.images);
-        main = (LinearLayout) findViewById(R.id.content_main);
-        rellenaBotones(PRINCIPIANTE);
 
+        arrayImagenesCompleto = getResources().obtainTypedArray(R.array.images_personajes_completos); // asocia un atributo a los personajes para elegirlos
+        arrayImagenes = getResources().obtainTypedArray(R.array.images); // asocia un atributo a los personajes del juegp
+        tablero = (LinearLayout) findViewById(R.id.content_main); // layout del juego
+        rellenaBotones(PRINCIPIANTE); // nivel de dificultad por defecto
     }
 
     /**
@@ -75,21 +78,17 @@ public class MainActivity extends AppCompatActivity implements SelecDificultadDi
         tableLayout = new TableLayout(this);
         tableLayout.setStretchAllColumns(true);
         tableLayout.setShrinkAllColumns(true);
-        tableLayout.setLayoutParams(new TableLayout.LayoutParams(
-                TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT));
+        tableLayout.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT));
         tableLayout.setWeightSum(botones);
 
         for (int i = 0; i < botones; i++) {
             TableRow tr = new TableRow(this);
             tr.setGravity(Gravity.CENTER);
-            tr.setLayoutParams(new TableLayout.LayoutParams(
-                    TableLayout.LayoutParams.MATCH_PARENT,
-                    TableLayout.LayoutParams.WRAP_CONTENT, 1.0f));
+            tr.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT, 1.0f));
 
             for (int j = 0; j < botones; j++) {
                 tiledBoton = new Button(this);
-                tiledBoton.setLayoutParams(new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT));
+                tiledBoton.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT));
                 tiledBoton.setId(View.generateViewId());
                 tiledBoton.setText(i + "," + j);
                 tiledBoton.setTextSize(0);
@@ -99,28 +98,23 @@ public class MainActivity extends AppCompatActivity implements SelecDificultadDi
             }
             tableLayout.addView(tr);
         }
-        main.removeAllViews();
-        main.addView(tableLayout);
+        tablero.removeAllViews();
+        tablero.addView(tableLayout);
 
         if (!jugando) deshabilitaTablero(tableLayout);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        g.tiempo = (TextView) findViewById(R.id.textView2);
+        game.tiempo = (TextView) findViewById(R.id.textView2);
         Personajes.personaje = (ImageView) findViewById(R.id.imagen1);
         Personajes.enemigo = (ImageView) findViewById(R.id.imagen2);
         return true;
     }
 
-
     /**
      * Método que implementa la interfaz para el diálogo de elección de la dificultad.
-     * PRINCIPIANTE - 8 casillas.
-     * AMATEUR - 12 casillas.
-     * AVANZADO - 16 casillas.
      *
      * @param i Entero asociado al nivel de dificultad.
      */
@@ -149,31 +143,30 @@ public class MainActivity extends AppCompatActivity implements SelecDificultadDi
         int x = Integer.parseInt(((Button) view).getText().toString().split(",")[0]);
         int y = Integer.parseInt(((Button) view).getText().toString().split(",")[1]);
 
-        int resultado = motorJuego.compruebaCelda(x, y);
+        int resultado = game.compruebaCelda(x, y);
 
-        if (resultado == -1) { // Hay hipotenocha
-            // Mostrar hipotenocha muerta
+        if (resultado == -1) { // Hay enemigo
+            // Mostrar enemigos
             Button b = (Button) view;
             b.setPadding(0, 0, 0, 0);
             b.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
             b.setBackground(arrayImagenesCompleto.getDrawable(enemigo));
-            // Fin juego
             TableLayout tl = (TableLayout) view.getParent().getParent();
             jugando = false;
             encontradas = 0;
             deshabilitaTablero(tl);
-            g.cT.cancel();
+            game.cT.cancel();
             mostrarAlerta(R.string.perdedor);
 
         }
-        if (resultado == 0) { // No hay hipotenochas adyacentes
+        if (resultado == 0) { // No hay enemigos adyacentes
             Button b = (Button) view;
             b.setPadding(0, 0, 0, 0);
             b.setBackgroundColor(Color.GRAY);
             // Despejar adyacentes con 0
             despejaAdyacentes(view, x, y);
         }
-        if (resultado > 0) { // Hay hipotenochas adyacentes
+        if (resultado > 0) { // Hay enemigos adyacentes
             Button b = (Button) view;
             b.setPadding(0, 0, 0, 0);
             b.setText(String.valueOf(resultado));
@@ -185,8 +178,7 @@ public class MainActivity extends AppCompatActivity implements SelecDificultadDi
     }
 
     /**
-     * Método que descubre automáticamente todas las casillas adyacentes que no tienen hipotenochas
-     * alrededor.
+     * Método que descubre automáticamente todas las casillas adyacentes que no tienen enemigos alrededor.
      *
      * @param view El botón a descubrir.
      * @param x    Fila.
@@ -197,14 +189,13 @@ public class MainActivity extends AppCompatActivity implements SelecDificultadDi
         for (int xt = -1; xt <= 1; xt++) {
             for (int yt = -1; yt <= 1; yt++) {
                 if (xt != yt) {
-                    if (motorJuego.compruebaCelda(x + xt, y + yt) == 0 && !motorJuego.getPulsadas(x + xt, y + yt)) {
+                    if (game.compruebaCelda(x + xt, y + yt) == 0 && !game.getPulsadas(x + xt, y + yt)) {
                         Button b = (Button) traerBoton(x + xt, y + yt);
                         b.setBackgroundColor(Color.GRAY);
                         b.setClickable(false);
-                        motorJuego.setPulsadas(x + xt, y + yt);
+                        game.setPulsadas(x + xt, y + yt);
                         String[] coordenadas = b.getText().toString().split(",");
-                        despejaAdyacentes(b, Integer.parseInt(coordenadas[0]),
-                                Integer.parseInt(coordenadas[1]));
+                        despejaAdyacentes(b, Integer.parseInt(coordenadas[0]), Integer.parseInt(coordenadas[1]));
                     }
                 }
             }
@@ -256,8 +247,8 @@ public class MainActivity extends AppCompatActivity implements SelecDificultadDi
         // Obtenemos las coordenadas de la celda del texto del botón
         int x = Integer.parseInt(((Button) view).getText().toString().split(",")[0]);
         int y = Integer.parseInt(((Button) view).getText().toString().split(",")[1]);
-        int resultado = motorJuego.compruebaCelda(x, y);
-        if (resultado == -1) { // Hay hipotenocha
+        int resultado = game.compruebaCelda(x, y);
+        if (resultado == -1) { // Hay enemigo
             Button b = (Button) view;
             b.setPadding(0, 0, 0, 0);
             b.setBackground(arrayImagenes.getDrawable(personaje));
@@ -269,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements SelecDificultadDi
                 mostrarAlerta(R.string.ganador);
                 deshabilitaTablero(tl);
             }
-        } else { // No hay hipotenocha
+        } else { // No hay enemigo
             Button b = (Button) view;
             b.setText(String.valueOf(resultado));
             b.setTextSize(20);
@@ -281,9 +272,8 @@ public class MainActivity extends AppCompatActivity implements SelecDificultadDi
             encontradas = 0;
             mostrarAlerta(R.string.perdedor);
             deshabilitaTablero(tl);
-            g.cT.cancel();
+            game.cT.cancel();
         }
-
         return true;
     }
 
@@ -305,6 +295,11 @@ public class MainActivity extends AppCompatActivity implements SelecDificultadDi
         alert.show();
     }
 
+    /**
+     * Opciones del menu
+     * @param item Opcion del menu
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -313,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements SelecDificultadDi
                empezarJuego();
                 break;
             case R.id.configuracion:
-                SelecDificultadDialogFragment selecDificultad = new SelecDificultadDialogFragment();
+                DificultadFragment selecDificultad = new DificultadFragment();
                 selecDificultad.show(getFragmentManager(), null);
                 break;
             case R.id.personaje:
@@ -338,29 +333,28 @@ public class MainActivity extends AppCompatActivity implements SelecDificultadDi
         }
 
     /**
-     * Inicia el juego desde el menú correspondiente.
+     * Inicia el juego desde el menú correspondiente. Tambien desactiva el reloj para poder volver a activarlo sin pisarse al elegir otra dificultad
      *
      */
     private void empezarJuego() {
         jugando = true;
         onRespuestaDificultad(dificultad);
-        motorJuego = new MotorJuego(dificultad);
+        game = new Game(dificultad);
 
         if(relojActivado == true) {
-            g.cT.cancel();
+            game.cT.cancel();
             relojActivado = false;
         }
 
         if(dificultad == 0) {
-            g.contador(TIEMPO_PRINCIPIANTE);
+            game.contador(TIEMPO_PRINCIPIANTE);
         }
         if (dificultad==1) {
-            g.contador(TIEMPO_AMATEUR);
+            game.contador(TIEMPO_AMATEUR);
         }
         if (dificultad==2){
-            g.contador(TIEMPO_AVANZADO);
+            game.contador(TIEMPO_AVANZADO);
         }
-
-        motorJuego.jugar();
+        game.jugar();
     }
 }

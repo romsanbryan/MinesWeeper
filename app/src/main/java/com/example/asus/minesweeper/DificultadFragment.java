@@ -4,19 +4,24 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
 /**
- * Created by antonio on 30/11/16.
+ * Clase encargada de mostrar los diferentes niveles de dificultad
+ * @author Bryan Jesús Romero Santos
  */
 
-public class SelecDificultadDialogFragment extends DialogFragment {
+public class DificultadFragment extends DialogFragment {
     // Declaración de variables
-    String[] dificultad = {"Nivel Principiante", "Nivel Amateur", "Nivel Avanzado"};
-    RespuestaDificultad respuestaDificultad;
+    private String[] dificultad = {"Nivel Principiante", "Nivel Amateur", "Nivel Avanzado"}; // Array que contiene los niveles
+    private RespuestaDificultad respuestaDificultad; // variable para guardar la dificultad seleccionada
 
+    /**
+     * Permite seleccionar la dificultad
+     * @param savedInstanceState
+     * @return Cuadro de seleccion de dificultad
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -48,7 +53,4 @@ public class SelecDificultadDialogFragment extends DialogFragment {
         super.onAttach(activity);
         respuestaDificultad = (RespuestaDificultad) activity;
     }
-
-
-
 }

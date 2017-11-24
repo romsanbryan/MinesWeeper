@@ -47,14 +47,19 @@ public class Personajes extends ListActivity {
                 switch(persona){
                     case "Goku":
                         Toast.makeText(getApplicationContext(), "Has elegido a Goku", Toast.LENGTH_SHORT).show();
+                        MainActivity.personaje = 0;
                         break;
 
                     case "Vegeta":
                         Toast.makeText(getApplicationContext(), "Has elegido a Vegeta", Toast.LENGTH_SHORT).show();
+                        MainActivity.personaje = 1;
+
                         break;
 
                     case "Gohan":
                         Toast.makeText(getApplicationContext(), "Has elegido a Gohan", Toast.LENGTH_SHORT).show();
+                        MainActivity.personaje = 2;
+
                         break;
                 }
             }

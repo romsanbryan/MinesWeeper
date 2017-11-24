@@ -4,14 +4,13 @@ import java.util.Random;
 
 import static com.example.asus.minesweeper.MainActivity.*;
 
-
 /**
- * Created by ASUS on 23/11/2017.
+ * Created by antonio on 1/12/16.
  */
 
-public class Confi {
+public class MotorJuego {
     // Declaración de variables.
-    int casillas;
+    private int casillas;
     private int[][] matriz;
     private boolean[][] pulsadas;
 
@@ -19,7 +18,7 @@ public class Confi {
      * Constructor.
      * @param dificultad Nivel de dificultad del juego.
      */
-    public Confi(int dificultad) {
+    public MotorJuego(int dificultad) {
         switch (dificultad) {
             case 0:
                 casillas = PRINCIPIANTE;
@@ -44,24 +43,24 @@ public class Confi {
      * Distribuye las hipotenochas y las pistas de su ubicación en el tablero.
      */
     public void jugar() {
-        colocarPersonajesTablero();
-        colorcarPistasAdyacentes();
+        ponerHipotenochas();
+        ponerPistas();
     }
 
     /**
      * Distribuye las hipotenochas en el tablero de forma aleatoria.
      */
-    public void colocarPersonajesTablero() {
+    public void ponerHipotenochas() {
         matriz = new int[casillas][casillas];
-        int personajes = 0;
+        int hipotenochas = 0;
         Random rnd = new Random();
 
-        while (personajes < 10) {
+        while (hipotenochas < 10) {
             int x = rnd.nextInt(casillas);
             int y = rnd.nextInt(casillas);
             if (matriz[x][y] != -1) {
                 matriz[x][y] = -1;
-                personajes++;
+                hipotenochas++;
             }
         }
     }
@@ -69,7 +68,7 @@ public class Confi {
     /**
      * Rellena las celdas adyacentes a las hipotenochas con pistas de su ubicación.
      */
-    private void colorcarPistasAdyacentes() {
+    private void ponerPistas() {
         for (int x = 0; x < casillas; x++) {
             for (int y = 0; y < casillas; y++) {
                 if (matriz[x][y] != -1) {

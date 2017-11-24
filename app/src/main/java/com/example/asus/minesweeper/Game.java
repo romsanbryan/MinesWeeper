@@ -13,6 +13,7 @@ import android.widget.TextView;
  */
 public class Game {
     public static TextView tiempo;
+    public static CountDownTimer cT;
 
     /**
      * Realizar y muestra (en un textView) un cronometro hacia atras
@@ -20,7 +21,7 @@ public class Game {
      * @param time Tiempo correspondiente según la dificultad de cada modo, en milisegundos
      */
     public void contador(int time){
-        CountDownTimer cT = new CountDownTimer(time, 1000) {
+        cT = new CountDownTimer(time, 1000) {
             /**
              * Realizar la operacion para calcular el tiempo real
              *
@@ -40,6 +41,7 @@ public class Game {
              */
             public void onFinish() {
                 tiempo.setText("Se acabó el tiempo");
+                MainActivity.deshabilitaTablero(MainActivity.tableLayout);
             }
         };
         cT.start(); // Inicia el cronometro

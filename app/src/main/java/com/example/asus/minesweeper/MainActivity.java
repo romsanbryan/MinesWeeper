@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -27,9 +28,7 @@ import android.widget.TextView;
  * @since API 21
  */
 
-public class MainActivity extends AppCompatActivity
-        implements
-        SelecDificultadDialogFragment.RespuestaDificultad, View.OnClickListener, View.OnLongClickListener {
+public class MainActivity extends AppCompatActivity implements SelecDificultadDialogFragment.RespuestaDificultad, View.OnClickListener, View.OnLongClickListener {
     protected static int personaje = 0; // posicion del personaje en el array
     protected int dificultad = 0;  // posicion de la dificultad
     private Button tiledBoton;
@@ -46,11 +45,12 @@ public class MainActivity extends AppCompatActivity
     public static final int PRINCIPIANTE = 8; // 8x8
     public static final int AMATEUR = 10; // 10x10
     public static final int AVANZADO = 12; // 12x12
-    private int TIEMPO_PRINCIPIANTE = 62000; //300000; // 5 minutos
+    private int TIEMPO_PRINCIPIANTE = 300000; // 5 minutos
     private int TIEMPO_AMATEUR= 450000; // 7.5 minutos
     private int TIEMPO_AVANZADO = 600000; // 10 minutos
     private Game g = new Game();
     static boolean relojActivado = false;
+    public static int enemigo = 0;
 
 
     @Override
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         arrayImagenesCompleto = getResources().obtainTypedArray(R.array.images_personajes_completos);
-        arrayImagenes = getResources().obtainTypedArray(R.array.images_personajes);
+        arrayImagenes = getResources().obtainTypedArray(R.array.images);
         main = (LinearLayout) findViewById(R.id.content_main);
         rellenaBotones(PRINCIPIANTE);
 
@@ -110,6 +110,8 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         g.tiempo = (TextView) findViewById(R.id.textView2);
+        Personajes.personaje = (ImageView) findViewById(R.id.imagen1);
+        Personajes.enemigo = (ImageView) findViewById(R.id.imagen2);
         return true;
     }
 
@@ -148,13 +150,11 @@ public class MainActivity extends AppCompatActivity
         int y = Integer.parseInt(((Button) view).getText().toString().split(",")[1]);
 
         int resultado = motorJuego.compruebaCelda(x, y);
-        int enemigo = 3;
+
         if (resultado == -1) { // Hay hipotenocha
             // Mostrar hipotenocha muerta
             Button b = (Button) view;
             b.setPadding(0, 0, 0, 0);
-          //  b.setTextColor(Color.BLACK);
-           // b.setText("X");
             b.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
             b.setBackground(arrayImagenesCompleto.getDrawable(enemigo));
             // Fin juego
@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity
             encontradas = 0;
             deshabilitaTablero(tl);
             g.cT.cancel();
+            mostrarAlerta(R.string.perdedor);
 
         }
         if (resultado == 0) { // No hay hipotenochas adyacentes
@@ -208,7 +209,6 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }
-
     }
 
     /**
@@ -250,8 +250,6 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
-
-
 
     @Override
     public boolean onLongClick(View view) {

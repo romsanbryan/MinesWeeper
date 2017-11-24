@@ -27,15 +27,20 @@
     </string-array>
 
     <integer-array name="images_personajes">
+        <item>@drawable/goku_personaje</item>
+        <item>@drawable/vegeta_personaje</item>
+        <item>@drawable/gohan_personaje</item>
+    </integer-array>
+
+    <integer-array name="images">
         <item>@drawable/goku</item>
         <item>@drawable/vegeta</item>
         <item>@drawable/gohan</item>
     </integer-array>
 
     <integer-array name="images_personajes_completos">
-        <item>@drawable/goku</item>
-        <item>@drawable/vegeta</item>
-        <item>@drawable/gohan</item>
+        <item>@drawable/saibaman</item>
         <item>@drawable/broly</item>
+        <item>@drawable/jr</item>
     </integer-array>
 </resources>

@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class Personajes extends ListActivity {
     private TypedArray images;
     private List<Informacion> informacionList;
     private Menu menu;
+    public static ImageView personaje;
+    public static ImageView enemigo;
 
 
     @Override
@@ -48,18 +51,25 @@ public class Personajes extends ListActivity {
                     case "Goku":
                         Toast.makeText(getApplicationContext(), "Has elegido a Goku", Toast.LENGTH_SHORT).show();
                         MainActivity.personaje = 0;
+                        MainActivity.enemigo = 0;
+                        personaje.setImageResource(R.drawable.goku);
+                        enemigo.setImageResource(R.drawable.saibaman);
                         break;
 
                     case "Vegeta":
                         Toast.makeText(getApplicationContext(), "Has elegido a Vegeta", Toast.LENGTH_SHORT).show();
                         MainActivity.personaje = 1;
-
+                        MainActivity.enemigo = 1;
+                        personaje.setImageResource(R.drawable.vegeta);
+                        enemigo.setImageResource(R.drawable.broly);
                         break;
 
                     case "Gohan":
                         Toast.makeText(getApplicationContext(), "Has elegido a Gohan", Toast.LENGTH_SHORT).show();
                         MainActivity.personaje = 2;
-
+                        MainActivity.enemigo = 2;
+                        personaje.setImageResource(R.drawable.gohan);
+                        enemigo.setImageResource(R.drawable.jr);
                         break;
                 }
             }

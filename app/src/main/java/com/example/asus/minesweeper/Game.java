@@ -42,6 +42,7 @@ public class Game {
                 tiempo.setText(R.string.tiempoAcabado);
                 MainActivity.deshabilitaTablero(MainActivity.tableLayout);
                 MainActivity.relojActivado = false;
+                MainActivity ma = new MainActivity();
             }
         };
         cT.start();// Inicia el cronometro

@@ -33,4 +33,27 @@
 
     <include layout="@layout/content_main" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/imagen2"
+        android:src="@drawable/saibaman"
+        android:scaleType="centerInside"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="46dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/imagen1"
+        android:src="@drawable/goku"
+        android:scaleType="centerInside"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

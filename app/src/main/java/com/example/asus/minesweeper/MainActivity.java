@@ -192,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements DificultadFragmen
                     if (game.compruebaCelda(x + xt, y + yt) == 0 && !game.getPulsadas(x + xt, y + yt)) {
                         Button b = (Button) traerBoton(x + xt, y + yt);
                         b.setBackgroundColor(Color.GRAY);
+                    //    b.setVisibility(View.GONE); // Sirve para poner los botones invisibles
                         b.setClickable(false);
                         game.setPulsadas(x + xt, y + yt);
                         String[] coordenadas = b.getText().toString().split(",");

@@ -104,6 +104,11 @@ public class MainActivity extends AppCompatActivity implements DificultadFragmen
         if (!jugando) deshabilitaTablero(tableLayout);
     }
 
+    /**
+     * Crea las opciones del menu
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -137,6 +142,10 @@ public class MainActivity extends AppCompatActivity implements DificultadFragmen
         }
     }
 
+    /**
+     * Evento al pulsar el boton
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         // Obtenemos las coordenadas de la celda del texto del botón
@@ -145,8 +154,7 @@ public class MainActivity extends AppCompatActivity implements DificultadFragmen
 
         int resultado = game.compruebaCelda(x, y);
 
-        if (resultado == -1) { // Hay enemigo
-            // Mostrar enemigos
+        if (resultado == -1) { // Si hay enemigo nos muestra el enemigo y nos dice que hemos perdido
             Button b = (Button) view;
             b.setPadding(0, 0, 0, 0);
             b.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
@@ -159,14 +167,14 @@ public class MainActivity extends AppCompatActivity implements DificultadFragmen
             mostrarAlerta(R.string.perdedor);
 
         }
-        if (resultado == 0) { // No hay enemigos adyacentes
+        if (resultado == 0) { // Si no hay enemigo nos despeja los ayacentes
             Button b = (Button) view;
             b.setPadding(0, 0, 0, 0);
             b.setBackgroundColor(Color.GRAY);
             // Despejar adyacentes con 0
             despejaAdyacentes(view, x, y);
         }
-        if (resultado > 0) { // Hay enemigos adyacentes
+        if (resultado > 0) { // Si hay enemigos adyacentes, nos lanza un numero en el boton indicando cuantos hay
             Button b = (Button) view;
             b.setPadding(0, 0, 0, 0);
             b.setText(String.valueOf(resultado));
@@ -243,25 +251,30 @@ public class MainActivity extends AppCompatActivity implements DificultadFragmen
         }
     }
 
+    /**
+     * Evento de dejar pulsado el boton
+     * @param view
+     * @return
+     */
     @Override
     public boolean onLongClick(View view) {
         // Obtenemos las coordenadas de la celda del texto del botón
         int x = Integer.parseInt(((Button) view).getText().toString().split(",")[0]);
         int y = Integer.parseInt(((Button) view).getText().toString().split(",")[1]);
         int resultado = game.compruebaCelda(x, y);
-        if (resultado == -1) { // Hay enemigo
+        if (resultado == -1) { // Si hay enemigo se cambia a nuestro personaje
             Button b = (Button) view;
             b.setPadding(0, 0, 0, 0);
             b.setBackground(arrayImagenes.getDrawable(personaje));
             encontradas++;
-            if (encontradas == 10) {
+            if (encontradas == 10) { // Si encontramos a los 10 hemos ganado
                 TableLayout tl = (TableLayout) view.getParent().getParent();
                 jugando = false;
                 encontradas = 0;
                 mostrarAlerta(R.string.ganador);
                 deshabilitaTablero(tl);
             }
-        } else { // No hay enemigo
+        } else { // Si no hay enemigo nos salta un mensaje de que hemos perdido
             Button b = (Button) view;
             b.setText(String.valueOf(resultado));
             b.setTextSize(20);
@@ -334,7 +347,8 @@ public class MainActivity extends AppCompatActivity implements DificultadFragmen
         }
 
     /**
-     * Inicia el juego desde el menú correspondiente. Tambien desactiva el reloj para poder volver a activarlo sin pisarse al elegir otra dificultad
+     * Inicia el juego desde el menú correspondiente. Tambien desactiva el reloj para poder volver a activarlo sin pisarse al
+     * elegir otra dificultad
      *
      */
     private void empezarJuego() {

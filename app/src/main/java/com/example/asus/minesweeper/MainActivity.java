@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements DificultadFragmen
     }
 
     /**
-     * Método que descubre automáticamente todas las casillas adyacentes que no tienen enemigos alrededor.
+     * Método que descubre automáticamente todas las casillas adyacentes que sin enemigos alrededor.
      *
      * @param view El botón a descubrir.
      * @param x    Fila.
@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements DificultadFragmen
      * @return Devuelve el botón buscado o null si no lo encuentra.
      */
     private View traerBoton(int x, int y) {
-        Button b = null;
+        Button b;
         // Recorremos la matriz de botones hasta encontrar una coincidencia con las coordenadas
         // buscadas.
         for (int i = 0; i < tableLayout.getChildCount(); i++) {
